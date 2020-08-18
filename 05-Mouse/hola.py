@@ -16,6 +16,7 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
+            
     
     mouse_pos = pygame.mouse.get_pos()
     x = mouse_pos[0]
