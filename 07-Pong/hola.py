@@ -29,6 +29,8 @@ pelota_speed_y = 3
 
 game_over = False
 
+background = pygame.image.load("tarde.jpg").convert()
+
 while not game_over:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -93,6 +95,7 @@ while not game_over:
     if pelota.colliderect(jugador1) or pelota.colliderect(jugador2):
         pelota_speed_x *= -1
 
+    screen.blit(background, [0,0])
     pygame.display.flip()
     clock.tick(60)
 pygame.quit()
