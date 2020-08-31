@@ -36,10 +36,19 @@ class Player(pygame.sprite.Sprite):
 		self.image = pygame.image.load("player.png").convert()
 		self.image.set_colorkey(BLACK)
 		self.rect = self.image.get_rect() #Posicionar sprite
-	def update(self):
-		mouse_pos = pygame.mouse.get_pos()
-		player.rect.x = mouse_pos[0]
-		player.rect.y = mouse_pos[1]
+		self.speed_x = 0
+		self.speed_y = 0
+
+	def changespeed(self, x): #Mover personaje con el mouse
+		self.speed_x += x
+
+	#ef update(self): #Mover personaje con el mouse
+		#mouse_pos = pygame.mouse.get_pos()
+		#player.rect.x = mouse_pos[0]
+		#player.rect.y = mouse_pos[1]
+	def update(self): #Mover personaje con el mouse
+		self.rect.x += self.speed_x
+		player.rect.y = 610
 
 screen = pygame.display.set_mode([720, 720])
 clock = pygame.time.Clock()
@@ -64,18 +73,32 @@ for i in range(50):
 
 player = Player()
 all_sprite_list.add(player)
+sound = pygame.mixer.Sound("laser5.ogg")
 
 while not done:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			done = True
 
-		if event.type == pygame.MOUSEBUTTONDOWN:
-			laser = Laser()
-			laser.rect.x = player.rect.x + 45
-			laser.rect.y = player.rect.y - 20
-			all_sprite_list.add(laser)
-			laser_list.add(laser)
+		if event.type == pygame.KEYDOWN:
+			if event.key == pygame.K_LEFT:
+				player.changespeed(-3)
+			if event.key == pygame.K_RIGHT:
+				player.changespeed(3)
+			if event.key == pygame.K_SPACE:
+				laser = Laser()
+				laser.rect.x = player.rect.x + 45
+				laser.rect.y = player.rect.y - 20
+				all_sprite_list.add(laser)
+				laser_list.add(laser)
+				sound.play()
+
+		if event.type == pygame.KEYUP:
+			if event.key == pygame.K_LEFT:
+				player.changespeed(3)
+			if event.key == pygame.K_RIGHT:
+				player.changespeed(-3)
+
 
 	all_sprite_list.update()
 	for laser in laser_list:
